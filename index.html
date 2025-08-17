@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Carousel Full</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+  body { background-color:#f5f5f5; }
+
+  .nav-section {
+    position: fixed; top:0; width:100%; padding:20px 40px;
+    display:flex; justify-content:space-between; align-items:center;
+    z-index:1000; color:white; font-weight:bold;
+    background: rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+
+  .hero-section {
+    height: 100vh; width:100%;
+    overflow:hidden; position:relative;
+    padding-top:80px; display:flex;
+    flex-direction:column; align-items:center; justify-content:center;
+  }
+
+  .card-item .bg {
+    border-radius:25px; background-position:center; background-size:cover;
+    width:100%; height:100%;
+  }
+
+  .card-item:nth-child(1) .bg,
+  .card-item:nth-child(2) .bg { border-radius:0px; }
+
+  .card-item {
+    width:200px; height:300px; position: absolute;
+    top:70%; transform:translate(0,-50%);
+    transition:0.5s; box-shadow:0 30px 50px #505050;
+    z-index:0; border-radius:25px;
+  }
+
+  .card-item:nth-child(1),
+  .card-item:nth-child(2){
+    top:0px; left:0px; transform:translate(0,0);
+    width:100%; height:100%; border-radius:0px;
+  }
+
+  .card-item:nth-child(3) { left: 60%; }
+  .card-item:nth-child(4) { left: calc(60% + 220px); }
+  .card-item:nth-child(5) { left: calc(60% + 440px); }
+  .card-item:nth-child(n+6) { left: calc(60% + 660px); opacity:0; }
+
+  .card-item .inner {
+    display:none; position:absolute; top:30%; left: 50px;
+    transform:translate(0,-50%); transition:1s; color:white;
+  }
+
+  .card-headline { animation:animate 1s ease-in-out 1 forwards; opacity:0; font-size:3em; }
+  .card-sub-headline { animation:animate 1s ease-in-out 1 forwards; opacity:0; font-size:1.5em; }
+
+  @keyframes animate {
+    from { opacity:0; transform:translate(0,100px); filter:blur(33px); }
+    to { opacity:1; transform:translate(0,0); filter:blur(0px); }
+  }
+
+  .button-container {
+      display:flex; position: absolute;  bottom: 10px; right: 15%; gap:15px; z-index:100;
+  }
+
+  .prev, .next {
+    background: rgba(0,0,0,0.3);
+    color: white;
+    border:none; padding:5px 10px;
+    cursor:pointer; border-radius:8px; font-size:18px;
+  }
+  .card-item:hover {
+    box-shadow:0 50px 100px #505050;
+    transform:translate(0,-20px);
+  }
+
+  
+@media (max-width: 600px) {
+  .button-container{
+    right: 40%;
+  }
+  .card-item{
+    height: 250px;
+  }
+  .card-item .inner{
+    left: 10px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-section">
+  <div>Home</div>
+  <div>Menu</div>
+</div>
+
+<section class="hero-section">
+
+  <div class="card-item">
+    <div class="bg" style="background-image: url(/images/WhatsApp\ Image\ 2025-08-17\ at\ 19.47.41_efa77a4f.jpg);"></div>
+    <div class="inner">
+      <h1 class="card-headline">Beautiful Mountains </h1>
+      <p class="card-sub-headline">Breathe the fresh mountain air</p>
+    </div>
+  </div>
+
+  <div class="card-item">
+    <div class="bg" style="background-image: url(/images/WhatsApp\ Image\ 2025-08-17\ at\ 19.47.42_3cc73a5c.jpg);"></div>
+    <div class="inner">
+      <h1 class="card-headline">Sunset Views</h1>
+      <p class="card-sub-headline">Relax with scenic sunsets</p>
+    </div>
+  </div>
+
+  <div class="card-item">
+    <div class="bg" style="background-image: url(/images/WhatsApp\ Image\ 2025-08-17\ at\ 19.47.43_0efb917a.jpg);"></div>
+    <div class="inner">
+      <h1 class="card-headline">Ocean Waves</h1>
+      <p class="card-sub-headline">Feel the calming sea breeze</p>
+    </div>
+  </div>
+
+  
+
+  <div class="card-item">
+    <div class="bg" style="background-image: url(/images/WhatsApp\ Image\ 2025-08-17\ at\ 19.47.44_1af378e6.jpg);"></div>
+    <div class="inner">
+      <h1 class="card-headline">Forest Trail</h1>
+      <p class="card-sub-headline">Adventure awaits among the trees</p>
+    </div>
+  </div>
+
+  <div class="card-item">
+    <div class="bg" style="background-image: url(/images/WhatsApp\ Image\ 2025-08-17\ at\ 19.47.44_29839823.jpg);"></div>
+    <div class="inner">
+      <h1 class="card-headline">City Lights</h1>
+      <p class="card-sub-headline">Experience the vibrant city life</p>
+    </div>
+  </div>
+
+
+  <div class="button-container">
+    <button class="prev">◀ </button>
+    <button class="next">▶</button>
+  </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const updateText = () => {
+    const cards = document.querySelectorAll(".card-item");
+    cards.forEach(card => card.querySelector(".inner").style.display = "none");
+    // Always show text on the first visible full-screen card
+    if(cards[0]) cards[0].querySelector(".inner").style.display = "block";
+  }
+
+  const next = document.querySelector(".next");
+  const prev = document.querySelector(".prev");
+
+  next.addEventListener("click", () => {
+    const items = document.querySelectorAll(".card-item");
+    const hero = document.querySelector(".hero-section");
+    hero.appendChild(items[0]); // rotate first card to end
+    updateText();
+  });
+
+  prev.addEventListener("click", () => {
+    const items = document.querySelectorAll(".card-item");
+    const hero = document.querySelector(".hero-section");
+    hero.prepend(items[items.length - 1]); // rotate last card to front
+    updateText();
+  });
+
+  // Initialize
+  updateText();
+});
+</script>
+
+</body>
+</html>
